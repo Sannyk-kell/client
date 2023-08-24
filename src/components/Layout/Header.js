@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
 import toast from 'react-hot-toast'
+import Dashboard from '../../pages/user/Dashboard';
 
 const Headers = () => {
   const [auth, setAuth] = useAuth()
@@ -37,7 +38,18 @@ const Headers = () => {
           </li>
           <li><NavLink to="/login" className="nav-link" href="#">Login</NavLink></li>
             </>) : (<>
-              <li><NavLink onClick={handleLogout} to="/login" className="nav-link" href="#">Logout </NavLink></li>
+              <li className="nav-item dropdown">
+                <NavLink className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {auth?.user?.name}
+                </NavLink>
+                <ul className="dropdown-menu">
+                  <li><NavLink 
+                    to={`/dashboard/${
+                      auth?.user?.role === 1 ? 'admin' : 'user'
+                    }`}className="dropdown-item">Dashboard</NavLink></li>
+                  <li><NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout </NavLink></li>      
+                </ul>
+              </li>
             </>)
           }
           <li><NavLink to="/cart" className="nav-link" href="#">Cart(0)</NavLink></li>
